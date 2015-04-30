@@ -1,19 +1,19 @@
-package io.rets.tests;
+package io.rets.sdk.tests;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.List;
 
-import io.rets.RetslyClient;
-import io.rets.resources.Listing;
+import io.rets.sdk.RetslyClient;
+import io.rets.sdk.resources.Listing;
 
 import org.apache.http.HttpException;
 import org.json.JSONException;
 import org.junit.Test;
 
 public class ListingsTest {
-   RetslyClient retsly = new RetslyClient("9d569d82909f34a4fb8894ff91f07b52");
+   RetslyClient retsly = new RetslyClient("056fbdfdaf7d7e4ce54ab66c7b049a9e");
 
    @Test
 	public void BasicListingsQuery() throws JSONException, IOException, HttpException {

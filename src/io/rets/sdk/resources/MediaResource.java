@@ -1,4 +1,4 @@
-package io.rets.resources;
+package io.rets.sdk.resources;
 
 import java.util.ArrayList;
 import java.util.List;

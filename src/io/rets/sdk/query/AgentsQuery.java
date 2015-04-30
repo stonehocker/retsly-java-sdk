@@ -1,7 +1,7 @@
-package io.rets.query;
+package io.rets.sdk.query;
 
-import io.rets.RetslyClient;
-import io.rets.resources.Agent;
+import io.rets.sdk.RetslyClient;
+import io.rets.sdk.resources.Agent;
 
 import org.json.JSONObject;
 

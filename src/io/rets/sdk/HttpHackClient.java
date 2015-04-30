@@ -1,4 +1,4 @@
-package io.rets;
+package io.rets.sdk;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;

@@ -1,9 +1,9 @@
-package io.rets;
+package io.rets.sdk;
 
-import io.rets.query.AgentsQuery;
-import io.rets.query.ListingsQuery;
-import io.rets.query.OfficeQuery;
-import io.rets.query.VendorQuery;
+import io.rets.sdk.query.AgentsQuery;
+import io.rets.sdk.query.ListingsQuery;
+import io.rets.sdk.query.OfficeQuery;
+import io.rets.sdk.query.VendorQuery;
 
 
 public class RetslyClient {

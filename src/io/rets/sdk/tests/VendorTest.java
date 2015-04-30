@@ -1,11 +1,11 @@
-package io.rets.tests;
+package io.rets.sdk.tests;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import io.rets.RetslyClient;
-import io.rets.resources.Vendor;
+import io.rets.sdk.RetslyClient;
+import io.rets.sdk.resources.Vendor;
 
 import org.apache.http.HttpException;
 import org.json.JSONException;

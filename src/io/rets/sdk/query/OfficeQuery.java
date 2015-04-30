@@ -1,7 +1,7 @@
-package io.rets.query;
+package io.rets.sdk.query;
 
-import io.rets.RetslyClient;
-import io.rets.resources.Office;
+import io.rets.sdk.RetslyClient;
+import io.rets.sdk.resources.Office;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package io.rets.resources;
+package io.rets.sdk.resources;
 
 import org.json.JSONObject;
 

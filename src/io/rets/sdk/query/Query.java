@@ -1,4 +1,4 @@
-package io.rets.query;
+package io.rets.sdk.query;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -12,9 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.rets.HttpHackClient;
-import io.rets.RetslyClient;
-import io.rets.resources.Listing;
+import io.rets.sdk.HttpHackClient;
+import io.rets.sdk.RetslyClient;
+import io.rets.sdk.resources.Listing;
 
 import java.io.IOException;
 import java.util.ArrayList;
