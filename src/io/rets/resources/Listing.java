@@ -1,4 +1,4 @@
-package io.rets;
+package io.rets.resources;
 
 import org.json.JSONObject;
 
@@ -20,7 +20,6 @@ public class Listing extends MediaResource{
     public int getYearBuilt(){
         return getInteger("yearBuilt");
     }
-
     public int getBeds(){
         return getInteger("bedrooms");
     }
