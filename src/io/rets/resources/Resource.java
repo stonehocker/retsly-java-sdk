@@ -1,4 +1,4 @@
-package io.rets;
+package io.rets.resources;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,13 +20,15 @@ public class Resource {
         } catch (JSONException e){
         }
     }
-
+    public String getId(){
+    	return getString("_id");
+    }
     protected String getString(String str){
         try{
             return json.getString(str);
         }
         catch (JSONException e){
-            return null;
+            return "";
         }
     }
     protected int getInteger(String str){
@@ -47,5 +49,12 @@ public class Resource {
     }
     public String getJSON(){
         return json.toString();
+    }
+    @Override
+    public boolean equals(Object obj){
+    	if(obj instanceof Resource){
+    		return this.getId().length() > 0 && ((Resource)obj).getId().equals(this.getId());
+    	}
+    	return false;
     }
 }

@@ -1,15 +1,21 @@
-package io.rets;
+package io.rets.query;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import io.rets.HttpHackClient;
+import io.rets.RetslyClient;
+import io.rets.resources.Listing;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,27 +85,36 @@ public abstract class Query<T> {
     protected JSONObject executeSingleQuery(String id) throws IOException,JSONException, HttpException{
 	    String request = this.buildSingleRequestString(id);
 	    JSONObject result = this.executeQuery(request);
-	    if(result.has("status") && result.getBoolean("success") == true)
-	    {
-	        return result.getJSONObject("bundle");
-	    }
-	    else{
-	        throw new HttpException("Server responded with ");
-	    }
+	    
+        return result != null ? result.getJSONObject("bundle") : null;
+	        
     }
 	    
     protected JSONObject executeQuery(String req) throws IOException,JSONException, HttpException {
 	    HttpClient httpclient = HttpHackClient.getNewHttpClient();
 	    HttpResponse httpResponse = httpclient.execute(new HttpGet(req));
 	    // receive response as inputStream
-	    String res = EntityUtils.toString(httpResponse.getEntity());
-	    //Convert the string result to a JSON Object
-	    return new JSONObject(res);
+	    int statusCode =  httpResponse.getStatusLine().getStatusCode();
+	    String contentType = httpResponse.getFirstHeader("Content-Type").getValue();
+	    if(contentType.contains("application/json")){
+		    String res = EntityUtils.toString(httpResponse.getEntity());
+		    JSONObject responseJson = new JSONObject(res);
+		    //Convert the string result to a JSON Object
+		    if(statusCode == HttpStatus.SC_OK && responseJson.getBoolean("success") == true)
+			    return responseJson;
+		    else{
+		        throw new HttpException("Server responded with ");
+		    }
+	    }
+	    else
+	    {
+	        throw new HttpException("Server responded with ");
+	    }
 	}
     
     protected abstract T createResource(JSONObject json);
     
-    protected List<T> findAll() throws IOException ,JSONException, HttpException {
+    public List<T> findAll() throws IOException ,JSONException, HttpException {
         JSONArray jsonArray = this.executeListQuery();
         List<T> list = new ArrayList<T>();
         for (int i = 0; i < jsonArray.length(); i++) {

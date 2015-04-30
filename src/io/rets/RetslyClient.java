@@ -1,5 +1,10 @@
 package io.rets;
 
+import io.rets.query.AgentsQuery;
+import io.rets.query.ListingsQuery;
+import io.rets.query.OfficeQuery;
+import io.rets.query.VendorQuery;
+
 
 public class RetslyClient {
 
@@ -31,5 +36,9 @@ public class RetslyClient {
     
     public OfficeQuery offices(){
     	return new OfficeQuery(this);
+    }
+    
+    public VendorQuery vendors(){
+    	return new VendorQuery(this);
     }
 }

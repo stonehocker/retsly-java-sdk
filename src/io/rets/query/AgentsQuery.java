@@ -1,4 +1,7 @@
-package io.rets;
+package io.rets.query;
+
+import io.rets.RetslyClient;
+import io.rets.resources.Agent;
 
 import org.json.JSONObject;
 
