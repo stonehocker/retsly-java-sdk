@@ -8,16 +8,16 @@ public class Vendor extends Resource {
 
     private double centerLatitude;
     private double centerLongitude;
-    
+
     public Vendor(JSONObject o) {
-        super(o);
+    	super(o);
     	try {
-             JSONArray center = o.getJSONArray("center");
+             JSONArray center = json.getJSONArray("center");
              centerLongitude = center.getDouble(0);
              centerLatitude = center.getDouble(1);
         } catch (JSONException e){
         }
-    }
+	}
 
     public double getCenterLatitude(){
         return centerLatitude;
