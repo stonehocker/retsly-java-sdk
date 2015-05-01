@@ -15,9 +15,11 @@ import org.json.JSONObject;
 import io.rets.sdk.HttpHackClient;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.async.AsyncInvoke;
+import io.rets.sdk.async.AsyncListInvoke;
 import io.rets.sdk.async.RetslyCallback;
 import io.rets.sdk.async.RetslyListCallback;
 import io.rets.sdk.resources.Listing;
+import io.rets.sdk.resources.Resource;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -137,27 +139,27 @@ public abstract class Query<T> {
         return createResource(jsonObj);   
 	}
 	
-	 public void findAllAysnc(final RetslyListCallback<T> cb) throws Exception {
+	 public void findAllAysnc(final RetslyListCallback cb) throws Exception {
 		if(retsly.async == null) throw new Exception("No Async set"); 
 		final Query<T> self = this;
-		retsly.async.excute(new AsyncInvoke() {
+		retsly.async.excuteList(new AsyncListInvoke<T>() {
 			@Override
-			public void run() throws Exception {
-				cb.getDataList(self.findAll());			
+			public List<T> runList() throws Exception {
+				return self.findAll();			
 			}
-		});
+		},cb);
     }
 	 
-   	public void findOneAsync(final RetslyCallback<T> cb) throws Exception {
+   	public void findOneAsync(final RetslyCallback cb) throws Exception {
 		this.limit(0);
 		if(retsly.async == null) throw new Exception("No Async set"); 
 		final Query<T> self = this;
 		retsly.async.excute(new AsyncInvoke() {
 			@Override
-			public void run() throws Exception {
-				cb.getData(self.findOne());			
+			public Resource run() throws Exception {
+				return (Resource) self.findOne();			
 			}
-		});
+		},cb);
 		
 	}
    	
@@ -167,9 +169,10 @@ public abstract class Query<T> {
 		final Query<T> self = this;
 		retsly.async.excute(new AsyncInvoke() {
 			@Override
-			public void run() throws Exception {
-				cb.getData(self.findOne());			
+			public T run() throws Exception {
+				T returnVal = self.findOne();
+				return returnVal;	
 			}
-		});
+		},cb);
 	}
 }

@@ -1,5 +1,7 @@
 package io.rets.sdk.resources;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
@@ -13,6 +15,13 @@ public class Listing extends MediaResource{
     
     public Listing(JSONObject o) {
         super(o);
+    	try {
+            JSONArray center = json.getJSONArray("coordinates");
+            longitude = center.getDouble(0);
+            latitue = center.getDouble(1);
+       } catch (JSONException e){
+       }
+        
     }
     public String getAddress(){
         return getString("address");

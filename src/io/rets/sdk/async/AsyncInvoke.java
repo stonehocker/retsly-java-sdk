@@ -1,5 +1,6 @@
 package io.rets.sdk.async;
 
-public interface AsyncInvoke {
-	public void run() throws Exception;
+public interface AsyncInvoke<T> {
+	public T run() throws Exception;
+
 }

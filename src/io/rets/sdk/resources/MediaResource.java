@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MediaResource extends Resource{
@@ -11,6 +12,12 @@ public class MediaResource extends Resource{
 	
 	public MediaResource(JSONObject o) {
 		super(o);
+		try{
+			media = o.getJSONArray("media");
+		}
+		catch(JSONException e){
+			media = new JSONArray();
+		}
 	}
 	
 	public String getImageUrl() {
