@@ -6,14 +6,16 @@ import java.io.IOException;
 import java.util.List;
 
 import io.rets.sdk.RetslyClient;
+import io.rets.sdk.query.Query.Operators;
 import io.rets.sdk.resources.Listing;
+import io.rets.sdk.resources.Listing.ListingProperty;
 
 import org.apache.http.HttpException;
 import org.json.JSONException;
 import org.junit.Test;
 
 public class ListingsTest {
-   RetslyClient retsly = new RetslyClient("056fbdfdaf7d7e4ce54ab66c7b049a9e");
+   RetslyClient retsly = new RetslyClient("758a506ca74740f7d2b265597114e0d2");
 
    @Test
 	public void BasicListingsQuery() throws JSONException, IOException, HttpException {
@@ -49,5 +51,29 @@ public class ListingsTest {
        assertTrue("Returns listing id", listing2.getId().length() > 20);
        assertTrue("listings equal", listing2.equals(listing1));
    }	
+	
+	@Test
+	public void WhereListing() throws JSONException, IOException, HttpException {
+		List<Listing> listings = retsly
+	    		.listings()
+	    		.where(ListingProperty.price, Operators.gt, 500000)
+	            .findAll();
+           
+       for(Listing l : listings){
+    	   assertTrue("All listings greater than query amount", l.getPrice() > 500000 );
+       }
+	}
+	
+	@Test
+	public void NearListing() throws JSONException, IOException, HttpException {
+		List<Listing> listings = retsly
+	    		.listings()
+	    		.near("San Francisco")
+	            .findAll();
+           
+       for(Listing l : listings){
+    	   //assertTrue("All listings greater than query amount", l.getPrice() > 500000 );
+       }
+	}
 
 }
