@@ -3,7 +3,6 @@ package io.rets.sdk.query;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.resources.Listing;
 
-import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 

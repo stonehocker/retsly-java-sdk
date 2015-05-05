@@ -18,7 +18,7 @@ import io.rets.sdk.async.AsyncInvoke;
 import io.rets.sdk.async.AsyncListInvoke;
 import io.rets.sdk.async.RetslyCallback;
 import io.rets.sdk.async.RetslyListCallback;
-import io.rets.sdk.resources.Listing;
+import io.rets.sdk.exception.RetslyException;
 import io.rets.sdk.resources.Resource;
 
 import java.io.IOException;
@@ -36,6 +36,7 @@ public abstract class Query<T> {
     private RetslyClient retsly;
     protected List<NameValuePair> arguments;
     protected String resource = "";
+    private String vendor = null;
     
     public enum Operators{
     	gt,gte,lt,lte,eq
@@ -46,7 +47,16 @@ public abstract class Query<T> {
         this.arguments = new ArrayList<NameValuePair>();
     }
 
-    protected Query<T> where(NameValuePair nv){
+    public Query<T> vendor(String vendor){
+    	this.vendor = vendor;
+        return this;
+    }
+    
+    public String getVendor(){
+    	return this.vendor != null? vendor : retsly.getVendor();
+    }
+    
+    public Query<T> where(NameValuePair nv){
         arguments.add(nv);
         return this;
     }
@@ -70,7 +80,7 @@ public abstract class Query<T> {
         return this;
     }
     protected String buildRequestURL(){
-    	return RetslyClient.RESTLY_URL + this.resource + "/" + retsly.getVendor();
+    	return RetslyClient.RESTLY_URL + this.resource + "/" + this.getVendor();
     }
     protected String buildRequestParameters(){
          // make GET request to the given URL
@@ -87,19 +97,13 @@ public abstract class Query<T> {
     	return this.buildRequestURL() +"/" + id + ".json?" + this.buildRequestParameters();
     }
     
-    protected JSONArray executeListQuery() throws IOException, JSONException, HttpException{
+    protected JSONArray executeListQuery() throws IOException, RetslyException{
     	String request = this.buildListRequestString();
  	    JSONObject result = this.executeQuery(request);
- 	    if(result.has("status") && result.getBoolean("success") == true)
- 	    {
- 	        return result.getJSONArray("bundle");
- 	    }
- 	    else{
- 	        throw new HttpException("Server responded with ");
- 	    }
+ 	    return result != null ? result.getJSONArray("bundle") : null;
     }
 	
-    protected JSONObject executeSingleQuery(String id) throws IOException,JSONException, HttpException{
+    protected JSONObject executeSingleQuery(String id) throws IOException, RetslyException{
 	    String request = this.buildSingleRequestString(id);
 	    JSONObject result = this.executeQuery(request);
 	    
@@ -107,7 +111,7 @@ public abstract class Query<T> {
 	        
     }
 	    
-    protected JSONObject executeQuery(String req) throws IOException,JSONException, HttpException {
+    protected JSONObject executeQuery(String req) throws IOException, RetslyException {
 	    HttpClient httpclient = HttpHackClient.getNewHttpClient();
 	    HttpResponse httpResponse = httpclient.execute(new HttpGet(req));
 	    // receive response as inputStream
@@ -120,18 +124,18 @@ public abstract class Query<T> {
 		    if(statusCode == HttpStatus.SC_OK && responseJson.getBoolean("success") == true)
 			    return responseJson;
 		    else{
-		        throw new HttpException("Server responded with ");
+		        throw new RetslyException(responseJson);
 		    }
 	    }
 	    else
 	    {
-	        throw new HttpException("Server responded with ");
+	        throw new RetslyException(httpResponse);
 	    }
 	}
     
     protected abstract T createResource(JSONObject json);
     
-    public List<T> findAll() throws IOException ,JSONException, HttpException {
+    public List<T> findAll() throws IOException , RetslyException {
         JSONArray jsonArray = this.executeListQuery();
         List<T> list = new ArrayList<T>();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -140,14 +144,14 @@ public abstract class Query<T> {
         return list;
     }
 
-   	public T findOne() throws IOException, JSONException, HttpException {
+   	public T findOne() throws IOException, RetslyException {
 		this.limit(0);
 		JSONArray list = this.executeListQuery();
 		if(list.length() > 0) return createResource(list.getJSONObject(0));
 		return null;
 	}
    	
-	public T findById(String id) throws IOException, JSONException, HttpException {
+	public T findById(String id) throws IOException, RetslyException {
         JSONObject jsonObj = this.executeSingleQuery(id);
         return createResource(jsonObj);   
 	}
