@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import io.rets.sdk.RetslyClient;
+import io.rets.sdk.exception.RetslyException;
 import io.rets.sdk.query.Query.Operators;
 import io.rets.sdk.resources.Listing;
 import io.rets.sdk.resources.Listing.ListingProperty;
@@ -15,10 +16,10 @@ import org.json.JSONException;
 import org.junit.Test;
 
 public class ListingsTest {
-   RetslyClient retsly = new RetslyClient("758a506ca74740f7d2b265597114e0d2");
+   RetslyClient retsly = new RetslyClient(RetslyTest.VALID_AUTH_TOKEN);
 
    @Test
-	public void BasicListingsQuery() throws JSONException, IOException, HttpException {
+	public void BasicListingsQuery() throws  IOException, RetslyException {
        List<Listing> listings = retsly
     		.listings()
             .findAll();
@@ -30,7 +31,7 @@ public class ListingsTest {
        }
     }	
 	@Test
-	public void SingleListingQuery() throws JSONException, IOException, HttpException {
+	public void SingleListingQuery() throws  IOException, RetslyException {
        Listing listing = retsly
     		.listings()
             .findOne();
@@ -39,7 +40,7 @@ public class ListingsTest {
    }	
 	
 	@Test
-	public void SingleListingByIDQuery() throws JSONException, IOException, HttpException {
+	public void SingleListingByIDQuery() throws  IOException, RetslyException {
 		Listing listing1 = retsly
 	    		.listings()
 	            .findOne();
@@ -53,7 +54,7 @@ public class ListingsTest {
    }	
 	
 	@Test
-	public void WhereListing() throws JSONException, IOException, HttpException {
+	public void WhereListing() throws  IOException, RetslyException {
 		List<Listing> listings = retsly
 	    		.listings()
 	    		.where(ListingProperty.price, Operators.gt, 500000)
@@ -65,7 +66,7 @@ public class ListingsTest {
 	}
 	
 	@Test
-	public void NearListing() throws JSONException, IOException, HttpException {
+	public void NearListing() throws IOException, RetslyException {
 		List<Listing> listings = retsly
 	    		.listings()
 	    		.near("San Francisco")
