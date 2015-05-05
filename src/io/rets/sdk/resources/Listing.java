@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 
 /**
  * Created by matthewsa on 4/23/15.
@@ -13,6 +14,13 @@ public class Listing extends MediaResource{
     private double latitue;
     private double longitude;
     
+    public enum ListingProperty {
+    	agentID,officeID,listingID,address,city,state,county,country,
+    	zipCode,coordinates,listDate,lastModified,price,yearBuilt,acres,
+    	squareFootage,livingArea,stories,subdivision,baths,bedrooms,fireplaces,
+    	garageSpaces,halfBaths,pool,mlsStatus,type,subtype,publicRemarks
+    }
+    
     public Listing(JSONObject o) {
         super(o);
     	try {
@@ -20,32 +28,91 @@ public class Listing extends MediaResource{
             longitude = center.getDouble(0);
             latitue = center.getDouble(1);
        } catch (JSONException e){
-       }
-        
+       } 
     }
-    public String getAddress(){
-        return getString("address");
-    }
-    public int getYearBuilt(){
-        return getInteger("yearBuilt");
-    }
-    public int getBeds(){
-        return getInteger("bedrooms");
-    }
-    public int getBaths(){
-        return getInteger("halfBaths");
-    }
-    public String getAgentID(){
-        return getString("agentID");
-    }
-    public double getPrice(){
-        return getDouble("price");
-    }
+    
+	public String getAgentID(){
+	    return getString(ListingProperty.agentID.toString());
+	}
+	public String getOfficeID(){
+	    return getString(ListingProperty.officeID.toString());
+	}
+	public String getListingID(){
+	    return getString(ListingProperty.listingID.toString());
+	}
+	public String getCity(){
+	    return getString(ListingProperty.city.toString());
+	}
+	public String getState(){
+		 return getString(ListingProperty.state.toString());
+	}
+	public String getCounty(){
+		 return getString(ListingProperty.county.toString());
+	}
+	public String getCountry(){
+		 return getString(ListingProperty.country.toString());
+	}
+	public String getZipCode(){
+		 return getString(ListingProperty.zipCode.toString());
+	}
+	public Date getListDate(){
+		 return getDate(ListingProperty.listDate.toString());
+	}
+	public Date getLastModified(){
+		 return getDate(ListingProperty.lastModified.toString());
+	}
+	public double getPrice(){
+		return getDouble(ListingProperty.price.toString());
+	}
+	public int getYearBuilt(){
+		return getInteger(ListingProperty.yearBuilt.toString());
+	}
+	public int getAcres(){
+		 return getInteger(ListingProperty.acres.toString());
+	}
+	public int getSquareFootage(){
+		 return getInteger(ListingProperty.squareFootage.toString());
+	}
+	public int getLivingArea(){
+		 return getInteger(ListingProperty.livingArea.toString());
+	}
+	public int getStories(){
+		 return getInteger(ListingProperty.stories.toString());
+	}
+	public String getSubdivision(){
+		 return getString(ListingProperty.subdivision.toString());
+	}
+	public int getBaths(){
+	 return getInteger(ListingProperty.halfBaths.toString());
+	}
+	public Integer getBedrooms(){
+		 return getInteger(ListingProperty.bedrooms.toString());
+	}
+	public int getFireplaces(){
+		 return getInteger(ListingProperty.fireplaces.toString());
+	}
+	public int getGarageSpaces(){
+		 return getInteger(ListingProperty.garageSpaces.toString());
+	}
+	public boolean getPool(){
+		 return getBoolean(ListingProperty.pool.toString());
+	}
+	public String getMlsStatus(){
+		 return getString(ListingProperty.mlsStatus.toString());
+	}
+	public String getType(){
+		 return getString(ListingProperty.type.toString());
+	}
+	public String getSubtype(){
+		 return getString(ListingProperty.subtype.toString());
+	}
+	public String getPublicRemarks(){
+		 return getString(ListingProperty.publicRemarks.toString());
+	}
     public String getFormatedPrice(){
     	DecimalFormat formatter = new DecimalFormat("#,###.00");
     	return formatter.format(getPrice());
     }
-  
     public String getJSON(){
         return json.toString();
     }
@@ -55,5 +122,8 @@ public class Listing extends MediaResource{
     public double getLongitude(){
         return longitude;
     }
+	public String getLatLngString(){
+		 return getLatitude() + "," + getLongitude();
+	}
 
 }

@@ -30,5 +30,10 @@ public class Vendor extends Resource {
     public String getName(){
         return getString("name");
     }
-
+    
+    public String getVendorID(){
+        return getString("vendorID");
+    }
+    
+    
 }

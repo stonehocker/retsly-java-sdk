@@ -2,6 +2,7 @@ package io.rets.sdk.query;
 
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.resources.Agent;
+import io.rets.sdk.resources.Office;
 
 import org.json.JSONObject;
 
@@ -18,5 +19,9 @@ public class AgentsQuery extends Query<Agent> {
     @Override 
     protected Agent createResource(JSONObject json){
     	return new Agent(json);
+    }
+    public Query<Agent> where(Agent.AgentProperties agentProp, Query.Operators op, String value){
+    	this.where(agentProp.toString(),op,value);
+    	return this;
     }
 }

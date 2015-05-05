@@ -7,21 +7,41 @@ import org.json.JSONObject;
  */
 public class Office extends Resource{
 
+	public enum OfficeProperties {
+		officeID,type,address,city,fax,email,name,phone,state,zipCode
+	}
+	
     public Office(JSONObject o) {
 		super(o);
 	}
-    public String getName(){
-        return getString("name");
+    public String getOfficeID(){
+    	return getString(OfficeProperties.officeID.toString());
+    }
+    public String getType(){
+    	return getString(OfficeProperties.type.toString());
     }
     public String getAddress(){
-        return getString("address");
+    	return getString(OfficeProperties.address.toString());
+    }
+    public String getCity(){
+    	return getString(OfficeProperties.city.toString());
+    }
+    public String getFax(){
+    	return getString(OfficeProperties.fax.toString());
     }
     public String getEmail(){
-        return getString("email");
+    	return getString(OfficeProperties.email.toString());
+    }
+    public String getName(){
+    	return getString(OfficeProperties.name.toString());
     }
     public String getPhone(){
-        String phone = getString("phone");
-        return phone;
+    	return getString(OfficeProperties.phone.toString());
     }
-
+    public String getState(){
+    	return getString(OfficeProperties.state.toString());
+    }
+    public String getZipCode(){
+    	return getString(OfficeProperties.zipCode.toString());
+    }
 }

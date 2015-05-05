@@ -20,10 +20,10 @@ public class MediaResource extends Resource{
 		}
 	}
 	
-	public String getImageUrl() {
-	        return getImageUrl(0);
+	public String getFirstMediaUrl() {
+	        return getMediaUrl(0);
     }
-    public String getImageUrl(int index) {
+    public String getMediaUrl(int index) {
         try {
             index = index > this.media.length() ? this.media.length() -1 : index;
             return this.media.getJSONObject(index).getString("url");
@@ -31,14 +31,17 @@ public class MediaResource extends Resource{
         }
         return null;
     }
-    public List<String> getImageUrls(){
+    public List<String> getMediaUrls(){
         ArrayList<String> urls = new ArrayList<String>();
         for(int i = 0; i < this.media.length(); i++){
-            urls.add(this.getImageUrl(i));
+            urls.add(this.getMediaUrl(i));
         }
         return urls;
     }
-    public String[] getImageUrlsArray(){
-        return this.getImageUrls().toArray(new String[this.media.length()]);
+    public String[] getMediaUrlsArray(){
+        return this.getMediaUrls().toArray(new String[this.media.length()]);
+    }
+    public int getMediaLength(){
+    	return this.media != null ? this.media.length() : 0;
     }
 }

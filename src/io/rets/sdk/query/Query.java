@@ -32,18 +32,31 @@ public abstract class Query<T> {
 
     private static String LIMIT_ARGUMENT = "limit";
     private static String OFFSET_ARGUMENT = "offset";
-    
+    private static String TOKEN_ARGUMENT = "access_token";
     private RetslyClient retsly;
     protected List<NameValuePair> arguments;
     protected String resource = "";
+    
+    public enum Operators{
+    	gt,gte,lt,lte,eq
+    }
 
     public Query(RetslyClient retsly){
         this.retsly = retsly;
         this.arguments = new ArrayList<NameValuePair>();
     }
 
-    public Query<T> where(NameValuePair nv){
+    protected Query<T> where(NameValuePair nv){
         arguments.add(nv);
+        return this;
+    }
+    
+    protected Query<T> where(String property, Query.Operators op, String value){
+    	String propAndOperation = property;
+    	if(!op.equals(Query.Operators.eq)){
+    		propAndOperation += "[" + op.toString() + "]";
+    	}
+        this.where(new BasicNameValuePair(propAndOperation, value));
         return this;
     }
  
@@ -61,7 +74,7 @@ public abstract class Query<T> {
     }
     protected String buildRequestParameters(){
          // make GET request to the given URL
-         String params = "access_token="+ retsly.getToken();
+         String params = TOKEN_ARGUMENT + "=" + retsly.getToken();
          if(arguments != null) params = params + "&" + URLEncodedUtils.format(arguments, "utf-8");
          return params;
     }

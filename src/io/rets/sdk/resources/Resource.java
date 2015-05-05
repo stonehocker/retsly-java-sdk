@@ -1,5 +1,7 @@
 package io.rets.sdk.resources;
 
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +49,21 @@ public class Resource {
             return -1;
         }
     }
+    
+    protected Date getDate(String str){
+        String dateString = getString(str);
+        return new Date(dateString);
+    }
+    
+    protected boolean getBoolean(String str){
+    	 try{
+             return json.getBoolean(str);
+         }
+         catch (JSONException e){
+             return false;
+         }
+    }
+    
     public String getJSON(){
         return json.toString();
     }
