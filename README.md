@@ -8,11 +8,11 @@ Simple Listings Example:
     RetslyClient retsly = new RetslyClient("MY_TOKEN");
     List<Listing> listings = retsly
 	    		         .listings()
-                                 .vendor("imls")
+	    		         .vendor("imls")
 	    		         .where(ListingProperty.price, Operators.gt, 500000)
-                                 .limit(10)
-                                 .offset(0)
-	                         .findAll();
+	    		         .limit(10)
+	    		         .offset(0)
+	    		         .findAll();
 
 See Java Docs at
 http://retsly.github.io/retsly-java-sdk/doc/index.html
