@@ -1,5 +1,9 @@
+## "This SDK is currently in development. Please contact support@rets.ly if you have any questions"
+
 # retsly-java-sdk
 Create an easy to use Java SDK for developers
+
+
 
 ### Example query
 
