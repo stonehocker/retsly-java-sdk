@@ -80,7 +80,7 @@ public abstract class Query<T> {
         return this;
     }
     protected String buildRequestURL(){
-    	return RetslyClient.RESTLY_URL + this.resource + "/" + this.getVendor();
+    	return RetslyClient.RESTLY_URL + this.getVendor() + "/" + this.resource;
     }
     protected String buildRequestParameters(){
          // make GET request to the given URL
@@ -145,7 +145,7 @@ public abstract class Query<T> {
     }
 
    	public T findOne() throws IOException, RetslyException {
-		this.limit(0);
+		this.limit(1);
 		JSONArray list = this.executeListQuery();
 		if(list.length() > 0) return createResource(list.getJSONObject(0));
 		return null;
@@ -168,7 +168,7 @@ public abstract class Query<T> {
     }
 	 
    	public void findOneAsync(final RetslyCallback cb) throws Exception {
-		this.limit(0);
+		this.limit(1);
 		if(retsly.async == null) throw new Exception("No Async set"); 
 		final Query<T> self = this;
 		retsly.async.excute(new AsyncInvoke() {

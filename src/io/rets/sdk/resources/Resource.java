@@ -23,7 +23,7 @@ public class Resource {
         }
     }
     public String getId(){
-    	return getString("_id");
+    	return getString("id");
     }
     protected String getString(String str){
         try{

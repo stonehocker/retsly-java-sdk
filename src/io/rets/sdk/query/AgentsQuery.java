@@ -12,7 +12,7 @@ public class AgentsQuery extends Query<Agent> {
 
     public AgentsQuery(RetslyClient client){
         super(client);
-        this.resource = "agent";
+        this.resource = "agents";
     }
 
     @Override 

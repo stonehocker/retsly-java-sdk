@@ -23,12 +23,6 @@ public class Listing extends MediaResource{
     
     public Listing(JSONObject o) {
         super(o);
-    	try {
-            JSONArray center = json.getJSONArray("coordinates");
-            longitude = center.getDouble(0);
-            latitue = center.getDouble(1);
-       } catch (JSONException e){
-       } 
     }
     
 	public String getAgentID(){
@@ -39,6 +33,9 @@ public class Listing extends MediaResource{
 	}
 	public String getListingID(){
 	    return getString(ListingProperty.listingID.toString());
+	}
+	public String getAddress(){
+	    return getString(ListingProperty.address.toString());
 	}
 	public String getCity(){
 	    return getString(ListingProperty.city.toString());
@@ -117,10 +114,10 @@ public class Listing extends MediaResource{
         return json.toString();
     }
     public double getLatitude(){
-        return latitue;
+    	return getDouble("latitude");
     }
     public double getLongitude(){
-        return longitude;
+    	return getDouble("longitude");
     }
 	public String getLatLngString(){
 		 return getLatitude() + "," + getLongitude();

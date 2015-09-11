@@ -12,7 +12,7 @@ public class OfficeQuery extends Query<Office> {
 	
     public OfficeQuery(RetslyClient client){
         super(client);
-        this.resource = "office";
+        this.resource = "offices";
     }
 
     @Override 

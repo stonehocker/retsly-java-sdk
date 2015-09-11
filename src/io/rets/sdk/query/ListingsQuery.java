@@ -17,7 +17,7 @@ public class ListingsQuery extends Query<Listing> {
 
     public ListingsQuery(RetslyClient client){
         super(client);
-        this.resource = "listing";
+        this.resource = "listings";
     }
     
     public Query<Listing> near(String address){

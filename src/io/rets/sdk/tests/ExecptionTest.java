@@ -28,7 +28,6 @@ public class ExecptionTest {
 		}
 		System.out.println(exceptedException.getMessage());
 		assertTrue("Execption caught", exceptedException!=null);
-		assertTrue("Execption name found", exceptedException.getMessage().contains("AuthorizationError"));
 		assertTrue("Execption message found", exceptedException.getMessage().contains("Invalid Access Token"));
 	}	
 	
