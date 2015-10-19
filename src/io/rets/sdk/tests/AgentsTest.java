@@ -3,6 +3,7 @@ package io.rets.sdk.tests;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import io.rets.sdk.RetslyClient;
@@ -16,6 +17,14 @@ import org.junit.Test;
 public class AgentsTest {
    RetslyClient retsly = new RetslyClient(RetslyTest.VALID_AUTH_TOKEN);
 
+   /*@Test
+   public void Testhttp1() throws Exception {
+	   URL url = new URL("https://rets.io/api/v1/test_sf/listings?access_token="+ RetslyTest.VALID_AUTH_TOKEN);
+	   java.net.URLConnection urlConnection = url.openConnection();
+	   java.io.InputStream in = urlConnection.getInputStream();
+	   
+   }*/
+   
    @Test
 	public void BasicAgentsQuery() throws IOException, RetslyException {
        List<Agent> agents = retsly

@@ -21,5 +21,4 @@ public class VendorTest {
            
            assertTrue("Returns vendors", !vendors.isEmpty());
        }	
-
 }

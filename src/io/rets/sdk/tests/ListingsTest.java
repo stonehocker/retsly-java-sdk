@@ -76,5 +76,17 @@ public class ListingsTest {
     	   //assertTrue("All listings greater than query amount", l.getPrice() > 500000 );
        }
 	}
+	@Test
+	public void BasicListingsWithVendorQuery() throws  IOException, RetslyException {
+       List<Listing> listings = retsly.vendor("test_sd")
+    		.listings()
+            .findAll();
+       
+       assertTrue("Returns listings", !listings.isEmpty());
+
+       for(Listing l : listings){
+           assertTrue("is sandiego?", l.getCity().equals("San Diego"));
+       }
+    }	
 
 }

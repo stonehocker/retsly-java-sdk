@@ -10,29 +10,11 @@ import org.json.JSONObject;
 /**
  * Created by matthewsa on 4/28/15.
  */
-public class ListingsQuery extends Query<Listing> {
-
-    private static String NEAR_ARGUMENT = "near";
-    private static String RADIUS_ARGUMENT = "radius";
+public class ListingsQuery extends GeoQuery<Listing> {
 
     public ListingsQuery(RetslyClient client){
         super(client);
         this.resource = "listing";
-    }
-    
-    public Query<Listing> near(String address){
-        this.arguments.add(new BasicNameValuePair(NEAR_ARGUMENT,address));
-        return this;
-    }
-    public Query<Listing> radius(int radius){
-        this.arguments.add(new BasicNameValuePair(RADIUS_ARGUMENT,Integer.toString(radius)));
-        return this;
-    }
-
-    public Query<Listing> near(double longitude, double latitude ){
-    	String latLong = Double.toString(longitude)+","+Double.toString(latitude);
-        this.arguments.add(new BasicNameValuePair(NEAR_ARGUMENT,latLong));
-        return this;
     }
 
     @Override 

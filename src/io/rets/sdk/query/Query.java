@@ -45,6 +45,7 @@ public abstract class Query<T> {
     public Query(RetslyClient retsly){
         this.retsly = retsly;
         this.arguments = new ArrayList<NameValuePair>();
+        this.vendor = retsly.getVendor();
     }
 
     public Query<T> vendor(String vendor){
@@ -53,12 +54,15 @@ public abstract class Query<T> {
     }
     
     public String getVendor(){
-    	return this.vendor != null? vendor : retsly.getVendor();
+    	return vendor;
     }
     
     public Query<T> where(NameValuePair nv){
         arguments.add(nv);
         return this;
+    }
+    protected Query<T> where(String property, Query.Operators op, int value){
+    	return this.where(property, op, Integer.toString(value));
     }
     
     protected Query<T> where(String property, Query.Operators op, String value){
@@ -79,6 +83,10 @@ public abstract class Query<T> {
         arguments.add(new BasicNameValuePair(OFFSET_ARGUMENT,Integer.toString(offset)));
         return this;
     }
+    /*
+     * public public Query<T> .next(), would be nice
+     * 
+     */
     protected String buildRequestURL(){
     	return RetslyClient.RESTLY_URL + this.resource + "/" + this.getVendor();
     }
@@ -90,11 +98,11 @@ public abstract class Query<T> {
     }
     
     protected String buildListRequestString(){
-    	return this.buildRequestURL() + ".json?" + this.buildRequestParameters();
+    	return this.buildRequestURL() + "?" + this.buildRequestParameters();
     }
     
     protected String buildSingleRequestString(String id){
-    	return this.buildRequestURL() +"/" + id + ".json?" + this.buildRequestParameters();
+    	return this.buildRequestURL() +"/" + id + "?" + this.buildRequestParameters();
     }
     
     protected JSONArray executeListQuery() throws IOException, RetslyException{

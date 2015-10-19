@@ -64,6 +64,15 @@ public class Resource {
          }
     }
     
+    protected JSONObject getObject(String str){
+   	 try{
+            return json.getJSONObject(str);
+        }
+        catch (JSONException e){
+            return null;
+        }
+   }
+    
     public String getJSON(){
         return json.toString();
     }
