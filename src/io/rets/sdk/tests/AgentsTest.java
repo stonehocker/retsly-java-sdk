@@ -1,29 +1,20 @@
 package io.rets.sdk.tests;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-
+import static org.junit.Assert.assertTrue;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.exception.RetslyException;
 import io.rets.sdk.query.Query.Operators;
 import io.rets.sdk.resources.Agent;
 import io.rets.sdk.resources.Agent.AgentProperties;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.Test;
 
 public class AgentsTest {
    RetslyClient retsly = new RetslyClient(RetslyTest.VALID_AUTH_TOKEN);
 
-   /*@Test
-   public void Testhttp1() throws Exception {
-	   URL url = new URL("https://rets.io/api/v1/test_sf/listings?access_token="+ RetslyTest.VALID_AUTH_TOKEN);
-	   java.net.URLConnection urlConnection = url.openConnection();
-	   java.io.InputStream in = urlConnection.getInputStream();
-	   
-   }*/
    
    @Test
 	public void BasicAgentsQuery() throws IOException, RetslyException {
@@ -64,11 +55,11 @@ public class AgentsTest {
 	public void WhereAgents() throws IOException, RetslyException {
 		List<Agent> agents = retsly
 	    		.agents()
-	    		.where(AgentProperties.title, Operators.eq, "California")
+	    		.where(AgentProperties.status, Operators.eq, "Active")
 	            .findAll();
            
-    //for(Agent l : agents){
-    //	   assertTrue("All agents greater than query amount", l.getPrice() > 500000 );
-    //   }
+    for(Agent l : agents){
+    	   assertTrue("All agents greater than query amount", l.getStatus().equals("Active"));
+       }
 	}
 }

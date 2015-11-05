@@ -2,6 +2,7 @@ package io.rets.sdk.resources;
 
 import java.util.Date;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +24,7 @@ public class Resource {
         }
     }
     public String getId(){
-    	return getString("_id");
+    	return getString("id");
     }
     protected String getString(String str){
         try{
@@ -72,6 +73,15 @@ public class Resource {
             return null;
         }
    }
+    
+    protected JSONArray getArray(String str){
+      	 try{
+               return json.getJSONArray(str);
+           }
+           catch (JSONException e){
+               return new JSONArray();
+           }
+      }
     
     public String getJSON(){
         return json.toString();

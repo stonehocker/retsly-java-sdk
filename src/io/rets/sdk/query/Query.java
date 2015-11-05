@@ -1,18 +1,4 @@
 package io.rets.sdk.query;
-import org.apache.http.HttpException;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.rets.sdk.HttpHackClient;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.async.AsyncInvoke;
 import io.rets.sdk.async.AsyncListInvoke;
@@ -23,7 +9,21 @@ import io.rets.sdk.resources.Resource;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by matthewsa on 4/28/15.
@@ -32,11 +32,16 @@ public abstract class Query<T> {
 
     private static String LIMIT_ARGUMENT = "limit";
     private static String OFFSET_ARGUMENT = "offset";
+    private static String SORT_ARGUMENT = "sortBy";
+    private static String ORDER_ARGUMENT = "order";
     private static String TOKEN_ARGUMENT = "access_token";
     private RetslyClient retsly;
-    protected List<NameValuePair> arguments;
+    protected Map<String,String> arguments;
     protected String resource = "";
     private String vendor = null;
+    private int offset = 0;
+    private int limit = 10;
+    private String sort = null;
     
     public enum Operators{
     	gt,gte,lt,lte,eq
@@ -44,7 +49,7 @@ public abstract class Query<T> {
 
     public Query(RetslyClient retsly){
         this.retsly = retsly;
-        this.arguments = new ArrayList<NameValuePair>();
+        this.arguments = new HashMap<String,String>();
         this.vendor = retsly.getVendor();
     }
 
@@ -58,7 +63,7 @@ public abstract class Query<T> {
     }
     
     public Query<T> where(NameValuePair nv){
-        arguments.add(nv);
+        arguments.put(nv.getName(), nv.getValue());
         return this;
     }
     protected Query<T> where(String property, Query.Operators op, int value){
@@ -75,33 +80,65 @@ public abstract class Query<T> {
     }
  
     public Query<T> limit(int limit){
-        arguments.add(new BasicNameValuePair(LIMIT_ARGUMENT,Integer.toString(limit)));
+    	this.limit = limit;
+        arguments.put(LIMIT_ARGUMENT,Integer.toString(this.limit));
         return this;
     }
 
     public Query<T> offset(int offset){
-        arguments.add(new BasicNameValuePair(OFFSET_ARGUMENT,Integer.toString(offset)));
+    	this.offset = offset;
+        arguments.put(OFFSET_ARGUMENT,Integer.toString(this.offset));
         return this;
     }
-    /*
-     * public public Query<T> .next(), would be nice
-     * 
-     */
-    protected String buildRequestURL(){
-    	return RetslyClient.RESTLY_URL + this.resource + "/" + this.getVendor();
+
+    public Query<T> next(){
+    	this.offset+=this.limit;
+        arguments.put(OFFSET_ARGUMENT,Integer.toString(this.offset));
+        System.out.println(arguments.toString());
+        return this;
+    }
+    
+    public Query<T> prev(){
+    	this.offset-=this.offset;
+    	if(this.offset < 0 ) this.offset = 0;
+        arguments.put(OFFSET_ARGUMENT,Integer.toString(this.offset));
+        return this;
+    }
+    
+    
+    public Query<T> sort(String sort){
+    	this.sort = sort;
+        arguments.put(SORT_ARGUMENT,sort);
+        return this;
+    }
+    
+    public Query<T> order(boolean ascending){
+        arguments.put(ORDER_ARGUMENT, ascending ? "asc": "desc");
+        return this;
+    }
+    
+    protected String buildRequestURL() throws RetslyException{
+    	if( this.getVendor() == null) {
+    		throw new RetslyException("You must set vendor.");
+    	}
+    	return RetslyClient.RESTLY_URL + this.getVendor() + "/" + this.resource;
     }
     protected String buildRequestParameters(){
          // make GET request to the given URL
          String params = TOKEN_ARGUMENT + "=" + retsly.getToken();
-         if(arguments != null) params = params + "&" + URLEncodedUtils.format(arguments, "utf-8");
+         List<NameValuePair> args = new ArrayList<NameValuePair>();
+         for (String key : arguments.keySet() ){
+        	 args.add(new BasicNameValuePair(key, arguments.get(key)));
+         }
+         if(arguments != null) params = params + "&" + URLEncodedUtils.format(args, "utf-8");
          return params;
     }
     
-    protected String buildListRequestString(){
+    protected String buildListRequestString() throws RetslyException{
     	return this.buildRequestURL() + "?" + this.buildRequestParameters();
     }
     
-    protected String buildSingleRequestString(String id){
+    protected String buildSingleRequestString(String id) throws RetslyException{
     	return this.buildRequestURL() +"/" + id + "?" + this.buildRequestParameters();
     }
     
@@ -120,7 +157,7 @@ public abstract class Query<T> {
     }
 	    
     protected JSONObject executeQuery(String req) throws IOException, RetslyException {
-	    HttpClient httpclient = HttpHackClient.getNewHttpClient();
+	    HttpClient httpclient =  new DefaultHttpClient();
 	    HttpResponse httpResponse = httpclient.execute(new HttpGet(req));
 	    // receive response as inputStream
 	    int statusCode =  httpResponse.getStatusLine().getStatusCode();
@@ -153,7 +190,7 @@ public abstract class Query<T> {
     }
 
    	public T findOne() throws IOException, RetslyException {
-		this.limit(0);
+		this.limit(1);
 		JSONArray list = this.executeListQuery();
 		if(list.length() > 0) return createResource(list.getJSONObject(0));
 		return null;

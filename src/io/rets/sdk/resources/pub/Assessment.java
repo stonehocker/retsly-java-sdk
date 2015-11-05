@@ -1,8 +1,5 @@
 package io.rets.sdk.resources.pub;
 
-import io.rets.sdk.resources.MediaResource;
-import io.rets.sdk.resources.Resource;
-
 import org.json.JSONObject;
 
 /**
@@ -17,6 +14,7 @@ public class Assessment extends Parcel{
 		landUseGeneral, landUseCode, landUseDescription,
 		zoningCode, zoningDescription, numberOfBuildings,
 		lotSizeAcres, lotSizeSquareFeet, lotSizeFrontage, lotSizeDepth,
+		addresses
 		//ownerName, coordinates,
 		//building, address
 	}

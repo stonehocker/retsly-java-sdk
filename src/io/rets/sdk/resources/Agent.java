@@ -9,13 +9,16 @@ public class Agent extends MediaResource{
 
 	public enum AgentProperties{
 		agentID,firstName,lastName,middleName,fullName,cellPhone,homePhone,
-		officeID,officePhone,officeName,email,title
+		officeID,officePhone,officeName,email,title, status
 	}
     public Agent(JSONObject o) {
 		super(o);
 	}
     public String getAgentID(){
     	return getString(AgentProperties.agentID.toString());
+    }
+    public String getStatus(){
+    	return getString(AgentProperties.status.toString());
     }
     public String getFirstName(){
     	return getString(AgentProperties.firstName.toString());

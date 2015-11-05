@@ -19,4 +19,7 @@ public class RetslyException  extends Exception{
 	public RetslyException(HttpResponse response){
 		super(getMessage(response));
 	}
+	public RetslyException(String message){
+		super(message);
+	}
 }

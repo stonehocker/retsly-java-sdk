@@ -3,15 +3,10 @@ package io.rets.sdk.query.pub;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.query.GeoQuery;
 import io.rets.sdk.query.Query;
-import io.rets.sdk.query.Query.Operators;
-import io.rets.sdk.resources.Agent;
-import io.rets.sdk.resources.Listing;
 import io.rets.sdk.resources.pub.Address;
-import io.rets.sdk.resources.pub.Assessment;
 import io.rets.sdk.resources.pub.Building;
 import io.rets.sdk.resources.pub.Parcel;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 /**

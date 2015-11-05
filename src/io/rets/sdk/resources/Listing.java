@@ -1,11 +1,11 @@
 package io.rets.sdk.resources;
 
+import java.text.DecimalFormat;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.DecimalFormat;
-import java.util.Date;
 
 /**
  * Created by matthewsa on 4/23/15.
@@ -51,6 +51,9 @@ public class Listing extends MediaResource{
 	}
 	public String getCountry(){
 		 return getString(ListingProperty.country.toString());
+	}
+	public String getAddress(){
+		 return getString(ListingProperty.address.toString());
 	}
 	public String getZipCode(){
 		 return getString(ListingProperty.zipCode.toString());

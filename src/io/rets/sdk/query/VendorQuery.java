@@ -9,7 +9,7 @@ public class VendorQuery extends Query<Vendor> {
 
 	public VendorQuery(RetslyClient retsly) {
 		super(retsly);
-        this.resource = "vendor";
+        this.resource = "vendors";
 	}
 
 	protected String buildRequestURL(){

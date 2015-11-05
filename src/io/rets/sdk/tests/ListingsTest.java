@@ -1,18 +1,17 @@
 package io.rets.sdk.tests;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.util.List;
-
+import static org.junit.Assert.assertTrue;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.exception.RetslyException;
+import io.rets.sdk.query.ListingsQuery;
+import io.rets.sdk.query.Query;
 import io.rets.sdk.query.Query.Operators;
 import io.rets.sdk.resources.Listing;
 import io.rets.sdk.resources.Listing.ListingProperty;
 
-import org.apache.http.HttpException;
-import org.json.JSONException;
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.Test;
 
 public class ListingsTest {
@@ -73,7 +72,7 @@ public class ListingsTest {
 	            .findAll();
            
        for(Listing l : listings){
-    	   //assertTrue("All listings greater than query amount", l.getPrice() > 500000 );
+    	   assertTrue("All listings greater than query amount", l.getState().equals("CA"));
        }
 	}
 	@Test
@@ -83,10 +82,58 @@ public class ListingsTest {
             .findAll();
        
        assertTrue("Returns listings", !listings.isEmpty());
-
        for(Listing l : listings){
            assertTrue("is sandiego?", l.getCity().equals("San Diego"));
        }
     }	
 
+	@Test
+	public void ListingsNextQuery() throws  IOException, RetslyException {
+      ListingsQuery listingQuery = retsly
+    		.listings()
+    		.where(ListingProperty.price, Operators.gt, 500000);
+      
+      List<Listing> listings = listingQuery.findAll();
+       
+       Listing first = listings.get(0);
+       for(Listing l : listings){
+           assertTrue("has price", l.getPrice() > 0);
+       }
+       
+       listings = listingQuery.next().findAll();
+       assertTrue("List first don't equal", !first.equals(listings.get(0)));
+
+       for(Listing l : listings){
+           assertTrue("has price", l.getPrice() > 0);
+       }
+    }	
+	
+	@Test
+	public void ListingsPrevQuery() throws  IOException, RetslyException {
+      Query<Listing> listingQuery = retsly
+    		.listings()
+    		.offset(10)
+    		.limit(20);
+      List<Listing> listings = listingQuery.findAll();
+       
+       Listing first = listings.get(0);
+       listings = listingQuery.prev().findAll();
+       assertTrue("List first don't equal", !first.equals(listings.get(0)));
+    }
+	
+	@Test
+	public void ListingsSortQuery() throws  IOException, RetslyException {
+		Query<Listing> listingQuery = retsly
+    		.listings()
+    		.sort(ListingProperty.price.toString())
+    		.order(true);
+      
+       List<Listing> listings = listingQuery.findAll();
+       double lastPrice = 0.0;
+       for(Listing l : listings){
+           assertTrue("has price", l.getPrice() > lastPrice);
+           lastPrice = l.getPrice();
+       }
+     
+    }	
 }

@@ -1,15 +1,14 @@
 package io.rets.sdk.tests;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.util.List;
-
+import static org.junit.Assert.assertTrue;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.exception.RetslyException;
 import io.rets.sdk.query.Query.Operators;
 import io.rets.sdk.resources.Office;
 import io.rets.sdk.resources.Office.OfficeProperties;
+
+import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -58,8 +57,8 @@ public class OfficesTest {
 	    		.where(OfficeProperties.city, Operators.eq, "San Francisco")
 	            .findAll();
            
-    //for(Office l : offices){
-    //	   assertTrue("All offices greater than query amount", l.getPrice() > 500000 );
-    //   }
+    for(Office l : offices){
+    	   assertTrue("All offices eq sanfran", l.getCity().equals("San Francisco") );
+       }
 	}
 }

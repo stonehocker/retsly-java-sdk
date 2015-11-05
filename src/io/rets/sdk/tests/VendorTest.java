@@ -1,12 +1,11 @@
 package io.rets.sdk.tests;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
+import static org.junit.Assert.assertTrue;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.exception.RetslyException;
 import io.rets.sdk.resources.Vendor;
+
+import java.io.IOException;
 
 import org.junit.Test;
 

@@ -1,8 +1,11 @@
 package io.rets.sdk.resources.pub;
 
-import io.rets.sdk.resources.MediaResource;
 import io.rets.sdk.resources.Resource;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -16,7 +19,7 @@ public class Parcel extends Resource{
 		landUseGeneral, landUseCode, landUseDescription,
 		zoningCode, zoningDescription, numberOfBuildings,
 		lotSizeAcres, lotSizeSquareFeet, lotSizeFrontage, lotSizeDepth,
-		//ownerName, coordinates,
+		address, ownerName
 		//building, address
 	}
 	
@@ -81,12 +84,21 @@ public class Parcel extends Resource{
     	return getDouble(ParcelsProperties.lotSizeDepth.toString());
     }
     
-    
     public Building getBuilding(){
     	return new Building(getObject("building"));
     }
    
     public Address getAddress(){
     	return new Address(getObject("address"));
+    }
+    
+    public List<String> getOwnerNames(){
+    	 JSONArray ownerNames = getArray(ParcelsProperties.ownerName.toString());
+    	 List<String> owners = new ArrayList<String>();
+    	 if(ownerNames!=null){
+    		 for(int i = 0; i < ownerNames.length(); i++)
+    			 owners.add(ownerNames.getString(i));
+    	 }
+    	 return owners;
     }
 }

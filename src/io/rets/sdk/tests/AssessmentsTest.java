@@ -1,22 +1,16 @@
 package io.rets.sdk.tests;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-
+import static org.junit.Assert.assertTrue;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.exception.RetslyException;
 import io.rets.sdk.query.Query.Operators;
-import io.rets.sdk.resources.Agent;
-import io.rets.sdk.resources.Listing;
-import io.rets.sdk.resources.Agent.AgentProperties;
 import io.rets.sdk.resources.pub.Address;
 import io.rets.sdk.resources.pub.Assessment;
 import io.rets.sdk.resources.pub.Assessment.AssessmentProperties;
-import io.rets.sdk.resources.pub.Building;
 import io.rets.sdk.resources.pub.Building.BuildingProperties;
+
+import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 

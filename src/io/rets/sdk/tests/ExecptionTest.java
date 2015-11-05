@@ -1,13 +1,11 @@
 package io.rets.sdk.tests;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
+import static org.junit.Assert.assertTrue;
 import io.rets.sdk.RetslyClient;
 import io.rets.sdk.exception.RetslyException;
 import io.rets.sdk.resources.Listing;
-import io.rets.sdk.resources.Vendor;
+
+import java.io.IOException;
 
 import org.junit.Test;
 
@@ -19,7 +17,7 @@ public class ExecptionTest {
 
 		RetslyException exceptedException  = null;
 		try{
-		  java.util.List<Listing> listings = retsly
+		  retsly
 		  .listings()
 			.findAll();
 			}
@@ -38,7 +36,7 @@ public class ExecptionTest {
 
 		RetslyException exceptedException  = null;
 		try{
-		  java.util.List<Listing> listings = retsly
+		  retsly
 		  .listings()
 		  .vendor("vendor_nonexistant")
 			.findAll();
