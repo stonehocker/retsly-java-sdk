@@ -2,5 +2,7 @@ io.rets.sdk
 io.rets.sdk.async
 io.rets.sdk.exception
 io.rets.sdk.query
+io.rets.sdk.query.pub
 io.rets.sdk.resources
+io.rets.sdk.resources.pub
 io.rets.sdk.tests
