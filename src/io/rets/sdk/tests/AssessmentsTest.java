@@ -78,7 +78,7 @@ public class AssessmentsTest {
 	public void NearListing() throws IOException, RetslyException {
 		List<Assessment> assessments = retsly
 	    		.assessments()
-	    		.near(37.0,-122.0)
+	    		.near(-122.0, 37.0)
 	    		.radius(100)//switch when I upate 
 	            .findAll();
 		assertTrue("Returns assessments", !assessments.isEmpty());

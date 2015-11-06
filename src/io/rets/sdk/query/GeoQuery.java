@@ -24,7 +24,7 @@ public abstract class GeoQuery<T> extends Query<T> {
         return this;
     }
 
-    public GeoQuery<T> near(double longitude, double latitude ){
+    public GeoQuery<T> near(double latitude, double longitude){
     	String latLong = Double.toString(longitude)+","+Double.toString(latitude);
         this.arguments.put(NEAR_ARGUMENT,latLong);
         return this;
