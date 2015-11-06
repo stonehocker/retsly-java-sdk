@@ -18,7 +18,7 @@ public class Listing extends MediaResource{
     	agentID,officeID,listingID,address,city,state,county,country,
     	zipCode,coordinates,listDate,lastModified,price,yearBuilt,acres,
     	squareFootage,livingArea,stories,subdivision,baths,bedrooms,fireplaces,
-    	garageSpaces,halfBaths,pool,mlsStatus,type,subtype,publicRemarks
+    	garageSpaces,halfBaths,pool,status,type,subtype,publicRemarks
     }
     
     public Listing(JSONObject o) {
@@ -100,8 +100,8 @@ public class Listing extends MediaResource{
 	public boolean getPool(){
 		 return getBoolean(ListingProperty.pool.toString());
 	}
-	public String getMlsStatus(){
-		 return getString(ListingProperty.mlsStatus.toString());
+	public String getStatus(){
+		 return getString(ListingProperty.status.toString());
 	}
 	public String getType(){
 		 return getString(ListingProperty.type.toString());

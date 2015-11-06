@@ -25,6 +25,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import sun.misc.Regexp;
+
 /**
  * Created by matthewsa on 4/28/15.
  */
@@ -66,6 +68,18 @@ public abstract class Query<T> {
         arguments.put(nv.getName(), nv.getValue());
         return this;
     }
+    
+    public Query<T> where(String queryString) throws RetslyException {
+    	String[] nmPairs = queryString.split("[\\&\\;]");
+    	for (int i = 0; i < nmPairs.length; i++) {
+    		String[] nmPair = nmPairs[i].split("\\=");
+    		NameValuePair nv = new BasicNameValuePair(nmPair[0], nmPair[1]);
+            arguments.put(nv.getName(), nv.getValue());
+    	}
+        return this;
+    }
+    
+    
     protected Query<T> where(String property, Query.Operators op, int value){
     	return this.where(property, op, Integer.toString(value));
     }
@@ -108,7 +122,7 @@ public abstract class Query<T> {
     
     public Query<T> sort(String sort){
     	this.sort = sort;
-        arguments.put(SORT_ARGUMENT,sort);
+        arguments.put(SORT_ARGUMENT,this.sort);
         return this;
     }
     

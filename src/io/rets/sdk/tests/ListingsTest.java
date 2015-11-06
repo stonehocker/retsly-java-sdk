@@ -29,6 +29,7 @@ public class ListingsTest {
            assertTrue("has price", l.getPrice() > 0);
        }
     }	
+   
 	@Test
 	public void SingleListingQuery() throws  IOException, RetslyException {
        Listing listing = retsly
@@ -135,5 +136,21 @@ public class ListingsTest {
            lastPrice = l.getPrice();
        }
      
+    }	
+	
+   @Test
+	public void StringWhereListingsQuery() throws  IOException, RetslyException {
+       List<Listing> listings = retsly
+    		.listings()
+    		.where("price.lt=100000;status=Active")
+            .findAll();
+       
+       assertTrue("Returns listings", !listings.isEmpty());
+
+       for(Listing l : listings){
+           assertTrue("has price", l.getPrice() < 100000);
+           assertTrue("active status", l.getStatus().equals("Active"));
+
+       }
     }	
 }
